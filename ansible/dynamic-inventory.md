@@ -74,7 +74,7 @@ This specific template allows connecting to your localhost instance only. To add
 }
 ```
 
-By specifying the ip address inside the `hostvars` section, DNS lookups can be skipped. This is not a requirement, but I have found it useful at times to connect to an instance before its DNS entry has propagated entirely, or to avoid split-DNS setup issues where for example `host-1.internal.example.com` will resolve to some internal IP address, while you need to connect to the instance over its public IP address, or some other IP address that is not resolveable over DNS.
+By specifying the ip address inside the `host_vars` section, DNS lookups can be skipped. This is not a requirement, but I have found it useful at times to connect to an instance before its DNS entry has propagated entirely, or to avoid split-DNS setup issues where for example `host-1.internal.example.com` will resolve to some internal IP address, while you need to connect to the instance over its public IP address (or vice versa), or some other IP address that is not resolveable over DNS (yet).
 
 
 To use the custom inventory script, simply pass the `--inventory` or `-i` option to the `ansible-playbook` or `ansible` commands:
@@ -107,8 +107,5 @@ host-1.internal.example.com | SUCCESS => {
 
 The above command will only execute command on all hosts that are defined inside the `fronted` group (ie: `host-1.internal.example.com`). In this case, we could have done without the `-l frontend` and simply have specified the group using `-m ping frontend`, but I just wanted to show the general solution of limiting to a group of nodes
 
-
-
-## Real world configuration example
 
 
