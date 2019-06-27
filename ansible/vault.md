@@ -131,8 +131,6 @@ Since all files are encrypted using the same password from `.vault-password`, th
   * decrypt all encrypted files using the old password
   * encrypt all sensitive files using the new password
 
-You can find all encrypted files by grepping for the `ansible-vault` header `ANSIBLE_VAULT;1.1;AES256` and then simply running `ansible-vault decrypt` on all of them.
-
 A quick and dirty script to rotate your vault password would look something like the following (please backup your existing password before running the script since it will overwrite it)
 
 ```bash
