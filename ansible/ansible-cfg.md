@@ -11,6 +11,7 @@ If you have multiple projects, the easiest setup I have found was to just put an
 
 ## Example configuration
 
+```
 [defaults]
 stdout_callback = skippy
 display_skipped_hosts = False
@@ -20,3 +21,4 @@ unparsed_is_failed = True
 
 [ssh_connection]
 pipelining = True
+```
