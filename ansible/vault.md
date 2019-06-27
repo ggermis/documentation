@@ -110,15 +110,15 @@ To activate the script, simply put it in `.git/hooks/pre-commit` and by magic, g
 I have found it useful to put all our secrets into a file named `vault` and prefix all variables with `vault_` inside this file (eg: `group_vars/all/vault`).
 
 ```yaml
-vault_db_password: Thaoti7etaiWai0ohshahj7xau3akei0
-vault_rabbitmq_password: saenia0Eeziiz3ief2oeCiecealei9ee
-vault_api_key: teij6eej1hie6eite8Mi0Ooth2echooz
+vault_db_password = Thaoti7etaiWai0ohshahj7xau3akei0
+vault_rabbitmq_password = saenia0Eeziiz3ief2oeCiecealei9ee
+vault_api_key = teij6eej1hie6eite8Mi0Ooth2echooz
 ```
 
 and then simply use these values inside playbooks, roles, or other group_vars files:
 
 ```yaml
-spring.datasource.url: jdbc:postgresql://db.{{ fqdn_internal }}:5432/some_db?ApplicationName={{ application }}
+spring.datasource.url= jdbc:postgresql://db.{{ fqdn_internal }}:5432/some_db?ApplicationName={{ application }}
 spring.datasource.username = some_user
 spring.datasource.password = {{ vault_db_password }}
 
