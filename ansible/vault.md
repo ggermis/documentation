@@ -79,7 +79,7 @@ As you can see, we are not prompted for the password anymore. Even more, if you 
 Also, the `copy` directive will take an encrypted file and put the unencrypted version of it on the target machine
 
 
-### Git hooks
+## Git hook
 
 I wrote a small git pre-commit hook script to ensure we never accidentally check-in sensitive files
 
@@ -122,4 +122,30 @@ spring.datasource.url= jdbc:postgresql://db.{{ fqdn_internal }}:5432/some_db?App
 spring.datasource.username = some_user
 spring.datasource.password = {{ vault_db_password }}
 
+```
+
+## Rotating vault password
+
+Since all files are encrypted using the same password from `.vault-password`, this password should be rotated regularly. Rotating means re-encrypting all encrypted files with a new password
+
+  * decrypt all encrypted files using the old password
+  * encrypt all sensitive files using the new password
+
+You can find all encrypted files by grepping for the `ansible-vault` header `ANSIBLE_VAULT;1.1;AES256` and then simply running `ansible-vault decrypt` on all of them.
+
+A quick and dirty script to rotate your vault password would look something like the following (please backup your existing password before running the script since it will overwrite it)
+
+```bash
+#!/bin/bash
+
+set -eo pipefail
+
+[[ -e .vault-password.old ]] && { echo "Found existing backup file '.vault-password.old'. Previous run probably failed. Exiting."; exit 1; }
+
+SENSITIVE_FILES=( $(find /your/ansible/dir -type f -name "vault" -o -name "*.jks" -o -name "*.pem") )
+
+mv .vault-password .vault-password.old
+pwgen -ys 32 1 > .vault-password
+ansible-vault rekey --vault-password-file=.vault-password.old --new-vault-password-file=.vault-password "${SENSITIVE_FILES[@]}"
+rm .vault-password.old
 ```
